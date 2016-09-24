@@ -1,0 +1,25 @@
+type project
+title
+    zipkin-net
+owners
+    Kim Christensen
+authors 
+    Kim Christensen
+projectUrl
+    https://github.com/kichristensen/zipkin-net
+iconUrl
+    https://raw.githubusercontent.com/kichristensen/zipkin-net/master/docs/files/img/logo.png
+licenseUrl
+    https://github.com/kichristensen/zipkin-net/blob/master/LICENSE.txt
+requireLicenseAcceptance
+    false
+copyright
+    Copyright 2015
+tags
+    zipkin tracing
+summary
+    A Zipkin tracer for .NET
+description
+    A Zipkin tracer for .NET
+
+
