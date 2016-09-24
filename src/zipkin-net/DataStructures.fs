@@ -1,5 +1,18 @@
 ﻿namespace ZipkinNet.DataStructures
 
+open System
+
+[<AutoOpen>]
+module Helpers =
+    let unixBaseTime = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)
+    type DateTimeOffset with
+        member self.UnixTimeMicroseconds =
+            (self - unixBaseTime).TotalMilliseconds * 1000.0 |> int64
+
+    type TimeSpan with
+        member self.TotalMicroseconds =
+            self.TotalMilliseconds * 1000.0 |> int64
+
 [<AbstractClassAttribute; SealedAttribute>]
 type ZipkinConstants private() =
     static member ClientSend = "cs"
@@ -7,7 +20,6 @@ type ZipkinConstants private() =
     static member ServerSend = "ss"
     static member ServerReceive = "sr"
     static member LocalComponent = "lc"
-
 
 type Endpoint =
     {
@@ -22,7 +34,7 @@ type Annotation =
         value : string;
         endpoint : Endpoint option;
     }
-    static member Create(timestamp, value) = { timestamp = timestamp; value = value; endpoint = None }
+    static member Create(timestamp : DateTimeOffset, value) = { timestamp = timestamp.UnixTimeMicroseconds; value = value; endpoint = None }
     member self.Endpoint(endpoint) = { self with endpoint = Some endpoint }
 
 type AnnotationType =
@@ -63,5 +75,5 @@ type Span =
     member self.AddBinaryAnnotation(annotation) = { self with binary_annotations = annotation :: self.binary_annotations }
     member self.AddBinaryAnnotation(annotations : BinaryAnnotation seq) = { self with binary_annotations = self.binary_annotations @ (annotations |> Seq.toList) }
     member self.IsDebug() = { self with debug = true }
-    member self.Timestamp(timestamp) = { self with timestamp = Some timestamp }
-    member self.Duration(duration) = { self with duration = Some duration }
+    member self.Timestamp(timestamp : DateTimeOffset) = { self with timestamp = Some timestamp.UnixTimeMicroseconds }
+    member self.Duration(duration : TimeSpan) = { self with duration = Some duration.TotalMicroseconds }
