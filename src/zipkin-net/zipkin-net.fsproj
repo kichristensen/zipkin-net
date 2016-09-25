@@ -128,6 +128,7 @@
     <None Include="paket.references" />
     <None Include="paket.template" />
     <Content Include="App.config" />
+    <Compile Include="Helpers.fs" />
     <Compile Include="DataStructures.fs" />
   </ItemGroup>
   <ItemGroup>
