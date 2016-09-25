@@ -12,3 +12,7 @@ module Helpers =
     type TimeSpan with
         member self.TotalMicroseconds =
             self.TotalMilliseconds * 1000.0 |> int64
+
+    type String with
+        static member GenerateRandomHexEncodedInt64String() =
+            Convert.ToString(BitConverter.ToInt64(Guid.NewGuid().ToByteArray(), 0), 16)

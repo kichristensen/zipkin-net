@@ -1,6 +1,7 @@
 ﻿namespace ZipkinNet.DataStructures
 
 open System
+open ZipkinNet
 
 [<AbstractClassAttribute; SealedAttribute>]
 type ZipkinConstants private() =
