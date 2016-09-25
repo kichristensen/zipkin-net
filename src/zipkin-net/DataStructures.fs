@@ -13,19 +13,19 @@ type ZipkinConstants private() =
 
 type Endpoint =
     {
-        ipv4 : int;
-        port : int16;
-        service_name : string;
+        IPv4 : int;
+        Port : int16;
+        ServiceName : string;
     }
 
 type Annotation =
     {
-        timestamp : int64;
-        value : string;
-        endpoint : Endpoint option;
+        Timestamp : int64;
+        Value : string;
+        Endpoint : Endpoint option;
     }
-    static member Create(timestamp : DateTimeOffset, value) = { timestamp = timestamp.UnixTimeMicroseconds; value = value; endpoint = None }
-    member self.Endpoint(endpoint) = { self with endpoint = Some endpoint }
+    static member Create(timestamp : DateTimeOffset, value) = { Timestamp = timestamp.UnixTimeMicroseconds; Value = value; Endpoint = None }
+    member self.WithEndpoint(endpoint) = { self with Endpoint = Some endpoint }
 
 type AnnotationType =
     | Bool = 0
@@ -38,32 +38,32 @@ type AnnotationType =
 
 type BinaryAnnotation =
     {
-        key : string;
-        value : byte array;
-        annotation_type : AnnotationType;
-        host : Endpoint option;
+        Key : string;
+        Value : byte array;
+        AnnotationType : AnnotationType;
+        Host : Endpoint option;
     }
-    static member Create(key, value, annotationType) = { key = key; value = value; annotation_type = annotationType; host = None }
-    member self.Endpoint(host) = { self with host = Some host }
+    static member Create(key, value, annotationType) = { Key = key; Value = value; AnnotationType = annotationType; Host = None }
+    member self.WithHost(host) = { self with Host = Some host }
 
 type Span =
     {
-        trace_id : ZipkinId;
-        name : string;
-        id : ZipkinId;
-        parent_id : ZipkinId option;
-        annotations : Annotation list;
-        binary_annotations : BinaryAnnotation list;
-        debug : bool;
-        timestamp : int64 option;
-        duration : int64 option;
+        TraceId : ZipkinId;
+        Name : string;
+        Id : ZipkinId;
+        ParentId : ZipkinId option;
+        Annotations : Annotation list;
+        BinaryAnnotations : BinaryAnnotation list;
+        Debug : bool;
+        Timestamp : int64 option;
+        Duration : int64 option;
     }
-    static member Create(traceId, name, id) = { trace_id = traceId; name = name; id = id; parent_id = None; annotations = []; binary_annotations = []; debug = false; timestamp = None; duration = None }
-    member self.ParentId(id) = { self with parent_id = Some id }
-    member self.AddAnnotation(annotation) = { self with annotations = annotation :: self.annotations }
-    member self.AddAnnotation(annotations : Annotation seq) = { self with annotations = self.annotations @ (annotations |> Seq.toList) }
-    member self.AddBinaryAnnotation(annotation) = { self with binary_annotations = annotation :: self.binary_annotations }
-    member self.AddBinaryAnnotation(annotations : BinaryAnnotation seq) = { self with binary_annotations = self.binary_annotations @ (annotations |> Seq.toList) }
-    member self.IsDebug() = { self with debug = true }
-    member self.Timestamp(timestamp : DateTimeOffset) = { self with timestamp = Some timestamp.UnixTimeMicroseconds }
-    member self.Duration(duration : TimeSpan) = { self with duration = Some duration.TotalMicroseconds }
+    static member Create(traceId, name, id) = { TraceId = traceId; Name = name; Id = id; ParentId = None; Annotations = []; BinaryAnnotations = []; Debug = false; Timestamp = None; Duration = None }
+    member self.WithParentId(id) = { self with ParentId = Some id }
+    member self.AddAnnotation(annotation) = { self with Annotations = annotation :: self.Annotations }
+    member self.AddAnnotation(annotations : Annotation seq) = { self with Annotations = self.Annotations @ (annotations |> Seq.toList) }
+    member self.AddBinaryAnnotation(annotation) = { self with BinaryAnnotations = annotation :: self.BinaryAnnotations }
+    member self.AddBinaryAnnotation(annotations : BinaryAnnotation seq) = { self with BinaryAnnotations = self.BinaryAnnotations @ (annotations |> Seq.toList) }
+    member self.IsDebug() = { self with Debug = true }
+    member self.WithTimestamp(timestamp : DateTimeOffset) = { self with Timestamp = Some timestamp.UnixTimeMicroseconds }
+    member self.WithDuration(duration : TimeSpan) = { self with Duration = Some duration.TotalMicroseconds }
