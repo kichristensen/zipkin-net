@@ -48,10 +48,10 @@ type BinaryAnnotation =
 
 type Span =
     {
-        trace_id : int64;
+        trace_id : ZipkinId;
         name : string;
-        id : int64;
-        parent_id : int64 option;
+        id : ZipkinId;
+        parent_id : ZipkinId option;
         annotations : Annotation list;
         binary_annotations : BinaryAnnotation list;
         debug : bool;
