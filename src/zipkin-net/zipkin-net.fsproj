@@ -65,6 +65,7 @@
     <Content Include="App.config" />
     <Compile Include="Helpers.fs" />
     <Compile Include="DataStructures.fs" />
+    <Compile Include="Serialization.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

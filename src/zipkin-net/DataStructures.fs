@@ -20,11 +20,11 @@ type Endpoint =
 
 type Annotation =
     {
-        Timestamp : int64;
+        Timestamp : DateTimeOffset;
         Value : string;
         Endpoint : Endpoint option;
     }
-    static member Create(timestamp : DateTimeOffset, value) = { Timestamp = timestamp.UnixTimeMicroseconds; Value = value; Endpoint = None }
+    static member Create(timestamp : DateTimeOffset, value) = { Timestamp = timestamp; Value = value; Endpoint = None }
     member self.WithEndpoint(endpoint) = { self with Endpoint = Some endpoint }
 
 type AnnotationType =
@@ -55,8 +55,8 @@ type Span =
         Annotations : Annotation list;
         BinaryAnnotations : BinaryAnnotation list;
         Debug : bool;
-        Timestamp : int64 option;
-        Duration : int64 option;
+        Timestamp : DateTimeOffset option;
+        Duration : TimeSpan option;
     }
     static member Create(traceId, name, id) = { TraceId = traceId; Name = name; Id = id; ParentId = None; Annotations = []; BinaryAnnotations = []; Debug = false; Timestamp = None; Duration = None }
     member self.WithParentId(id) = { self with ParentId = Some id }
@@ -65,5 +65,5 @@ type Span =
     member self.AddBinaryAnnotation(annotation) = { self with BinaryAnnotations = annotation :: self.BinaryAnnotations }
     member self.AddBinaryAnnotation(annotations : BinaryAnnotation seq) = { self with BinaryAnnotations = self.BinaryAnnotations @ (annotations |> Seq.toList) }
     member self.IsDebug() = { self with Debug = true }
-    member self.WithTimestamp(timestamp : DateTimeOffset) = { self with Timestamp = Some timestamp.UnixTimeMicroseconds }
-    member self.WithDuration(duration : TimeSpan) = { self with Duration = Some duration.TotalMicroseconds }
+    member self.WithTimestamp(timestamp : DateTimeOffset) = { self with Timestamp = Some timestamp }
+    member self.WithDuration(duration : TimeSpan) = { self with Duration = Some duration }
