@@ -1,7 +1,6 @@
 ﻿namespace ZipkinNet.Serialization.Json
 
 open ZipkinNet
-open ZipkinNet.DataStructures
 open Newtonsoft.Json
 open System
 

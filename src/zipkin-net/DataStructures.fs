@@ -1,4 +1,4 @@
-﻿namespace ZipkinNet.DataStructures
+﻿namespace ZipkinNet
 
 open System
 open ZipkinNet
