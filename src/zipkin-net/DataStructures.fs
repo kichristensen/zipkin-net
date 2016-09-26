@@ -59,6 +59,8 @@ type Span =
         Duration : TimeSpan option;
     }
     static member Create(traceId, name, id) = { TraceId = traceId; Name = name; Id = id; ParentId = None; Annotations = []; BinaryAnnotations = []; Debug = false; Timestamp = None; Duration = None }
+    static member CreateRootSpan(name) = Span.Create(ZipkinId.Create(), name, ZipkinId.Create())
+    static member CreateChildSpan(name, span : Span) = Span.Create(span.TraceId, name, ZipkinId.Create())
     member self.WithParentId(id) = { self with ParentId = Some id }
     member self.AddAnnotation(annotation) = { self with Annotations = annotation :: self.Annotations }
     member self.AddAnnotation(annotations : Annotation seq) = { self with Annotations = self.Annotations @ (annotations |> Seq.toList) }
