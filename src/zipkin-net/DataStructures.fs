@@ -14,9 +14,11 @@ type ZipkinConstants private() =
 type Endpoint =
     {
         IPv4 : int;
-        Port : int16;
+        Port : int16 option;
         ServiceName : string;
     }
+    static member Create(ipv4, port, serviceName) = { IPv4 = ipv4; ServiceName = serviceName; Port = Some port }
+    static member CreateWithoutPort(ipv4, serviceName) = { IPv4 = ipv4; ServiceName = serviceName; Port = None }
 
 type Annotation =
     {

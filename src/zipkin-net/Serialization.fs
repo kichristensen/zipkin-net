@@ -11,7 +11,10 @@ type JsonEndpoint(endpoint : Endpoint) =
     member __.IPv4 = endpoint.IPv4
 
     [<JsonPropertyAttribute("port")>]
-    member __.Port = endpoint.Port
+    member __.Port =
+        match endpoint.Port with
+        | Some x -> x
+        | None -> 0s
 
     [<JsonPropertyAttribute("serviceName")>]
     member __.ServiceName = endpoint.ServiceName
