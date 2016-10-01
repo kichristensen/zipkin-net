@@ -1,6 +1,7 @@
 ﻿namespace ZipkinNet
 
 open System
+open System.Net
 open ZipkinNet
 
 [<AbstractClassAttribute; SealedAttribute>]
@@ -13,12 +14,18 @@ type ZipkinConstants private() =
 
 type Endpoint =
     {
-        IPv4 : int;
+        IPv4 : string;
         Port : int16 option;
         ServiceName : string;
     }
-    static member Create(ipv4, port, serviceName) = { IPv4 = ipv4; ServiceName = serviceName; Port = Some port }
-    static member CreateWithoutPort(ipv4, serviceName) = { IPv4 = ipv4; ServiceName = serviceName; Port = None }
+    static member private ConvertIpToInt(ipv4 : IPAddress) =
+        let ipBytes = ipv4.GetAddressBytes()
+        let i = BitConverter.ToInt32(ipBytes, 0)
+        IPAddress.HostToNetworkOrder(i)
+//        if BitConverter.IsLittleEndian then Array.Reverse(ipBytes)
+//        BitConverter.ToInt32(ipBytes, 0)
+    static member Create(ipv4 : IPAddress, port, serviceName) = { IPv4 = ipv4.ToString(); ServiceName = serviceName; Port = Some port }
+    static member CreateWithoutPort(ipv4 : IPAddress, serviceName) = { IPv4 = ipv4.ToString(); ServiceName = serviceName; Port = None }
 
 type Annotation =
     {
@@ -67,7 +74,7 @@ type Span =
     }
     static member Create(traceId, name, id) = { TraceId = traceId; Name = name; Id = id; ParentId = None; Annotations = []; BinaryAnnotations = []; Debug = false; Timestamp = None; Duration = None }
     static member CreateRootSpan(name) = Span.Create(ZipkinId.Create(), name, ZipkinId.Create())
-    static member CreateChildSpan(name, span : Span) = Span.Create(span.TraceId, name, ZipkinId.Create())
+    static member CreateChildSpan(name, parentSpan : Span) = Span.Create(parentSpan.TraceId, name, ZipkinId.Create()).WithParentId(parentSpan.Id)
     member self.WithParentId(id) = { self with ParentId = Some id }
     member self.AddAnnotation(annotation) = { self with Annotations = annotation :: self.Annotations }
     member self.AddAnnotation(annotations : Annotation seq) = { self with Annotations = self.Annotations @ (annotations |> Seq.toList) }

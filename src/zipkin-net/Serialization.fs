@@ -46,7 +46,7 @@ type JsonBinaryAnnotation(annotation : BinaryAnnotation) =
 
 type JsonSpan(span : Span) =
     [<JsonPropertyAttribute("traceId")>]
-    member __.TraceId = span.TraceId
+    member __.TraceId = span.TraceId.Id
 
     [<JsonPropertyAttribute("name")>]
     member __.Name = span.Name
@@ -61,10 +61,10 @@ type JsonSpan(span : Span) =
         | None -> null
 
     [<JsonPropertyAttribute("annotations")>]
-    member __.Annotations = span.Annotations
+    member __.Annotations = span.Annotations |> List.map (fun x -> new JsonAnnotation(x))
 
     [<JsonPropertyAttribute("binaryAnnotations")>]
-    member __.BinaryAnnotations = span.BinaryAnnotations
+    member __.BinaryAnnotations = span.BinaryAnnotations |> List.map (fun x -> new JsonBinaryAnnotation(x))
 
     [<JsonPropertyAttribute("timestamp", NullValueHandling = NullValueHandling.Ignore)>]
     member __.Timestamp : Nullable<int64> =
@@ -82,6 +82,8 @@ type JsonSpan(span : Span) =
 type JsonZipkinSerializer() =
     static member Serialize(span : JsonSpan) =
         JsonConvert.SerializeObject(span)
+    static member Serialize(spans : JsonSpan seq) =
+        JsonConvert.SerializeObject(spans)
     static member Serialize(annotation : JsonAnnotation) =
         JsonConvert.SerializeObject(annotation)
     static member Serialize(binaryAnnotation : JsonBinaryAnnotation) =
