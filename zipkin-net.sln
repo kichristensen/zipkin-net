@@ -1,6 +1,7 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{63297B98-5CED-492C-A5B7-A5B4F73CF142}"
 	ProjectSection(SolutionItems) = preProject
 		paket.dependencies = paket.dependencies
@@ -34,6 +35,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ED8079DD
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "zipkin-net.Tests", "tests\zipkin-net.Tests\zipkin-net.Tests.fsproj", "{D9BBE70D-78CB-4002-A100-6227182CFBE7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{C7A974F8-54A6-46FE-B4BB-BBECED44D73B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicSample", "samples\BasicSample\BasicSample.csproj", "{2C74D8D3-F97E-41A9-8552-F0748FABB459}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +53,10 @@ Global
 		{D9BBE70D-78CB-4002-A100-6227182CFBE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9BBE70D-78CB-4002-A100-6227182CFBE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9BBE70D-78CB-4002-A100-6227182CFBE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C74D8D3-F97E-41A9-8552-F0748FABB459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C74D8D3-F97E-41A9-8552-F0748FABB459}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C74D8D3-F97E-41A9-8552-F0748FABB459}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C74D8D3-F97E-41A9-8552-F0748FABB459}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,5 +65,6 @@ Global
 		{83F16175-43B1-4C90-A1EE-8E351C33435D} = {A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}
 		{8E6D5255-776D-4B61-85F9-73C37AA1FB9A} = {A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}
 		{D9BBE70D-78CB-4002-A100-6227182CFBE7} = {ED8079DD-2B06-4030-9F0F-DC548F98E1C4}
+		{2C74D8D3-F97E-41A9-8552-F0748FABB459} = {C7A974F8-54A6-46FE-B4BB-BBECED44D73B}
 	EndGlobalSection
 EndGlobal
