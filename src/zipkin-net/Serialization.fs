@@ -77,3 +77,14 @@ type JsonSpan(span : Span) =
         match span.Duration with
         | Some x -> new Nullable<int64>(x.TotalMicroseconds)
         | None -> new Nullable<int64>()
+
+[<AbstractClassAttribute; SealedAttribute>]
+type JsonZipkinSerializer() =
+    static member Serialize(span : JsonSpan) =
+        JsonConvert.SerializeObject(span)
+    static member Serialize(annotation : JsonAnnotation) =
+        JsonConvert.SerializeObject(annotation)
+    static member Serialize(binaryAnnotation : JsonBinaryAnnotation) =
+        JsonConvert.SerializeObject(binaryAnnotation)
+    static member Serialize(endpoint : JsonEndpoint) =
+        JsonConvert.SerializeObject(endpoint)
