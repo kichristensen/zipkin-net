@@ -27,6 +27,11 @@ type Annotation =
         Endpoint : Endpoint option;
     }
     static member Create(timestamp : DateTimeOffset, value) = { Timestamp = timestamp; Value = value; Endpoint = None }
+    static member CreateClientSend(timestamp : DateTimeOffset) = { Timestamp = timestamp; Value = ZipkinConstants.ClientSend; Endpoint = None }
+    static member CreateClientReceive(timestamp : DateTimeOffset) = { Timestamp = timestamp; Value = ZipkinConstants.ClientReceive; Endpoint = None }
+    static member CreateServerReceive(timestamp : DateTimeOffset) = { Timestamp = timestamp; Value = ZipkinConstants.ServerReceive; Endpoint = None }
+    static member CreateServerSend(timestamp : DateTimeOffset) = { Timestamp = timestamp; Value = ZipkinConstants.ServerSend; Endpoint = None }
+    static member CreateLocalComponent(timestamp : DateTimeOffset) = { Timestamp = timestamp; Value = ZipkinConstants.LocalComponent; Endpoint = None }
     member self.WithEndpoint(endpoint) = { self with Endpoint = Some endpoint }
 
 type AnnotationType =
